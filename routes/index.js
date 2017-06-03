@@ -5,21 +5,6 @@ module.exports = function(app) {
         res.sendfile('views/index.html');
     });
 
-    // app.post('/', function(req, res) {
-    //     var content = req.body.content;
-    //     db.query('insert into content set ?', {
-    //         id: null,
-    //         content: content,
-    //         bool: 1
-    //     }, function(err, rows) {
-    //         if (err) {
-    //             console.log(err);
-    //         } else {
-    //             res.redirect('/');
-    //         }
-    //     });
-    // });
-
     // 获取可用的todolist
     app.get('/todos', function(req, res) {
         db.query('select * from dolist where status in (0,1)', function(err, rows) {
@@ -32,9 +17,17 @@ module.exports = function(app) {
             console.log(rows)
             o = [];
             for (var i = 0; i < rows.length; i++) {
-                o.push({id: rows[i].id, content: rows[i].content, status: rows[i].status});
+                o.push({
+                    id: rows[i].id,
+                    content: rows[i].content,
+                    status: rows[i].status
+                });
             }
-            res.end(JSON.stringify(o))
+            _data = {
+                status: 1,
+                todos: o
+            }
+            res.end(JSON.stringify(_data))
         })
 
     });
@@ -62,7 +55,11 @@ module.exports = function(app) {
                     console.log(rows)
                     o = [];
                     for (var i = 0; i < rows.length; i++) {
-                       o.push({id: rows[i].id, content: rows[i].content, status: rows[i].status});
+                        o.push({
+                            id: rows[i].id,
+                            content: rows[i].content,
+                            status: rows[i].status
+                        });
                     }
                     data = {
                         "status": 1,
@@ -78,7 +75,7 @@ module.exports = function(app) {
     app.put('/todo/:id', function(req, res) {
         console.log(req.params)
         var status = req.body.status;
-         db.query('update dolist set status = ' + status + ' where id = ' + req.params.id, function(err, rows) {
+        db.query('update dolist set status = ' + status + ' where id in (' + req.params.id + ')', function(err, rows) {
             if (err) {
                 console.log(err);
                 res.end(JSON.stringify({
@@ -94,17 +91,6 @@ module.exports = function(app) {
 
     });
 
-    app.get('/active', function(req, res) {
-        db.query('select content from content where bool = 0', function(err, rows) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.render('active', {
-                    title: 'hello'
-                });
-            }
-        })
 
-    });
 
 };

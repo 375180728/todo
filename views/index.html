@@ -11,9 +11,26 @@
             <input id='newTodo' autofocus="autofocus" autocomplete="off" placeholder="What needs to be done?" class="new-todo">
         </header>
         <ul class="todo-list">
-            
+
         </ul>
     </section>
+    <footer class="footer">
+        <span class="todo-count">
+            <strong></strong> items left
+        </span> 
+        <ul class="filters">
+            <li>
+                <a onclick="filterTodos('all' ,0)" class="selected">All</a>
+            </li>
+            <li>
+                <a onclick="filterTodos(0, 1)" class="">Active</a>
+            </li>
+            <li>
+                <a onclick="filterTodos(1, 2)" class="">Completed</a>
+            </li>
+        </ul> 
+        <button class="clear-completed" onclick="clearCompleted()">Clear completed</button>
+    </footer>
 </body>
 <script type="text/javascript" src='../javascripts/helper.js'></script>
 <script type="text/javascript" src='../javascripts/main.js'></script>

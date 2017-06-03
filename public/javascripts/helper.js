@@ -46,7 +46,7 @@ function makePostData(obj) {
 }
 
 // MVVM
-function makeTodoList(data) {
+function makeTodoList(data, isFilter) {
     _listDOM = "";
     for (var i = 0; i < data.length; i++) {
         if (data[i].status == 2) {
@@ -56,17 +56,21 @@ function makeTodoList(data) {
         if (data[i].status == 1) {
             _class = 'todo completed';
         }
-        var template = '' + 
-            '<li class="'+_class+'">'+
-            '    <div class="view">'+
-            '        <input type="checkbox" class="toggle changeStatus" onClick="changeStatus('+data[i].status+', '+data[i].id+')" > '+
-            '        <label>'+data[i].content+'</label> '+
-            '        <button class="destroy" onClick="changeStatus(2, '+data[i].id+')"></button>'+
-            '    </div> '+
-            '    <input type="text" class="edit">'+
+        _checked = data[i].status ? 'checked' :'';
+        var template = '' +
+            '<li class="' + _class + '">' +
+            '    <div class="view">' +
+            '        <input type="checkbox" class="toggle changeStatus" onClick="changeStatus(' + data[i].status + ', ' + data[i].id + ')" '+_checked+'> ' +
+            '        <label>' + data[i].content + '</label> ' +
+            '        <button class="destroy" onClick="changeStatus(2, ' + data[i].id + ')"></button>' +
+            '    </div> ' +
+            '    <input type="text" class="edit">' +
             '</li>';
         _listDOM += template;
     }
-    todos = data;
     $('.todo-list')[0].innerHTML = _listDOM;
+    $('.todo-count strong')[0].innerHTML = data.length;
+    if (!isFilter) {
+        todos = data;
+    }
 }

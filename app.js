@@ -4,9 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
 var routes = require('./routes/index');
-var flash = require('connect-flash');
 
 var app = express();
 
@@ -27,12 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-app.use(session({
-    secret: 'keyboard cat',
-    cookie: {
-        maxAge: 30 * 600
-    }
-}));
+
 
 routes(app);
 
